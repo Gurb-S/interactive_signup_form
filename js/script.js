@@ -18,7 +18,6 @@ jobRole.addEventListener('click',(e)=>{
 });
 
 const color = document.getElementById('color');
-//color.style.backgroundColor = 'purple';
 color.disabled = true;
 
 const designs = document.getElementById('design');
@@ -40,7 +39,6 @@ designs.addEventListener('click',(e)=>{
         }
     }
     else if(designChoice === 'heart js'){
-        
         for(let i = 1;i < 7; i++){
             if(i <= 3){
                 options[i].style.display = 'none';
@@ -53,3 +51,86 @@ designs.addEventListener('click',(e)=>{
         }
     }
 });
+
+const field = document.getElementById('activities');
+const totalPrice = document.getElementById('activities-cost');
+let totalCost = 0;
+
+field.addEventListener('change',(e)=>{
+    const costAsString = e.target.dataset.cost;
+    const costInt = parseInt(costAsString);
+    const checkbox = e.target.checked;
+    if(checkbox){
+        totalCost += costInt;
+    }
+    else if(!checkbox && totalPrice.textContent !== 'Total: $0'){
+        totalCost -= costInt;
+    }
+    
+    totalPrice.textContent = `Total: $${totalCost}`;
+});
+
+const payWith = document.getElementById('payment');
+payWith.value = 'credit-card';
+
+const creditCardInfo = document.getElementById('credit-card');
+
+const paypal = document.getElementById('paypal');
+paypal.style.display = 'none';
+
+const bitcoin = document.getElementById('bitcoin');
+bitcoin.style.display = 'none';
+
+payWith.addEventListener('click',(e)=>{
+    const paymentChoice = e.target.value;
+    if(paymentChoice === 'credit-card'){
+        creditCardInfo.style.display = '';
+        paypal.style.display = 'none';
+        bitcoin.style.display = 'none';
+    }
+    else if(paymentChoice === 'paypal'){
+        creditCardInfo.style.display = 'none';
+        paypal.style.display = '';
+        bitcoin.style.display = 'none';
+    }
+    else if(paymentChoice === 'bitcoin'){
+        creditCardInfo.style.display = 'none';
+        paypal.style.display = 'none';
+        bitcoin.style.display = '';
+    }
+});
+
+
+
+const form = document.getElementsByClassName('container')[0].children[0];
+
+form.addEventListener('submit',(e)=>{
+    const nameInput = nameField.value;
+    const emailInput = document.getElementById('email').value;
+    const cardNumberInput = document.getElementById('cc-num').value;
+    const zipCode = document.getElementById('zip').value;
+    const cvv = document.getElementById('cvv').value;
+
+    const nameRegex = /^\w+$/i.test(nameInput);
+    const emailRegex = /^\w+@\w+.com$/i.test(emailInput);
+    const totalPriceRegex = /^Total: \$0$/.test(totalPrice.textContent);
+    const cardNumberInputRegex = /^\d{13,16}$/.test(cardNumberInput);    
+    const zipCodeRegex = /^\d{5}$/.test(zipCode);    
+    const cvvRegex = /^\d{3}$/.test(cvv);
+
+    if(!nameRegex
+    || !emailRegex 
+    || totalPriceRegex 
+    || !cardNumberInputRegex
+    || !zipCodeRegex
+    || !cvvRegex
+    ){
+        e.preventDefault();
+        alert('something is wrong');
+    }
+    else{
+       alert('it worked');
+    }
+});
+
+
