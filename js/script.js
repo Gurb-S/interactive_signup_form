@@ -127,10 +127,35 @@ form.addEventListener('submit',(e)=>{
     ){
         e.preventDefault();
         alert('something is wrong');
+        if(!nameRegex){
+            nameField.parentElement.className = 'not-valid hint';
+        }
+        if(!emailRegex){
+            document.getElementById('email').parentElement.className = 'not-valid hint';
+        }
+        if (totalPriceRegex) {
+            field.className += ' not-valid hint';
+        }
     }
     else{
        alert('it worked');
     }
 });
 
+const fieldDiv = document.getElementById('activities-box');
+const label = fieldDiv.children;
+
+for(let i = 0; i < label.length; i++){
+    const inputCheckbox = label[i].firstChild.nextSibling;
+
+    inputCheckbox.addEventListener('focus',(e)=>{
+    const testLabel = e.target.parentElement;
+    testLabel.className = 'focus';
+    });
+
+    inputCheckbox.addEventListener('blur',(e)=>{
+        const testLabel = e.target.parentElement;
+        testLabel.className = '';
+    });
+}
 
