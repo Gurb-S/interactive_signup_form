@@ -105,18 +105,24 @@ payWith.addEventListener('click',(e)=>{
 const form = document.getElementsByClassName('container')[0].children[0];
 
 form.addEventListener('submit',(e)=>{
-    const nameInput = nameField.value;
-    const emailInput = document.getElementById('email').value;
-    const cardNumberInput = document.getElementById('cc-num').value;
-    const zipCode = document.getElementById('zip').value;
-    const cvv = document.getElementById('cvv').value;
+    const nameInput = nameField;
+    const emailInput = document.getElementById('email');
+    const cardNumberInput = document.getElementById('cc-num');
+    const zipCode = document.getElementById('zip');
+    const cvv = document.getElementById('cvv');
 
-    const nameRegex = /^\w+$/i.test(nameInput);
-    const emailRegex = /^\w+@\w+.com$/i.test(emailInput);
+    if (payWith.value === 'paypal' || payWith.value === 'bitcoin') {
+        cardNumberInput.value = '1234567890123';
+        zipCode.value = '12345';
+        cvv.value = '123';
+    }
+    
+    const nameRegex = /^\w+$/i.test(nameInput.value);
+    const emailRegex = /^\w+@\w+.com$/i.test(emailInput.value);
     const totalPriceRegex = /^Total: \$0$/.test(totalPrice.textContent);
-    const cardNumberInputRegex = /^\d{13,16}$/.test(cardNumberInput);    
-    const zipCodeRegex = /^\d{5}$/.test(zipCode);    
-    const cvvRegex = /^\d{3}$/.test(cvv);
+    const cardNumberInputRegex = /^\d{13,16}$/.test(cardNumberInput.value);    
+    const zipCodeRegex = /^\d{5}$/.test(zipCode.value);    
+    const cvvRegex = /^\d{3}$/.test(cvv.value);
 
     if(!nameRegex
     || !emailRegex 
@@ -128,13 +134,62 @@ form.addEventListener('submit',(e)=>{
         e.preventDefault();
         alert('something is wrong');
         if(!nameRegex){
-            nameField.parentElement.className = 'not-valid hint';
+            nameField.parentElement.className = 'not-valid';
+            nameField.parentElement.lastElementChild.style.display = 'initial';
+        }
+        else if (nameRegex) {
+            nameField.parentElement.className = 'valid';
+            nameField.parentElement.lastElementChild.style.display = '';
         }
         if(!emailRegex){
-            document.getElementById('email').parentElement.className = 'not-valid hint';
+            emailInput.parentElement.className = 'not-valid';
+            emailInput.parentElement.lastElementChild.style.display = 'initial';    
+        }
+        else if (emailRegex) {
+            emailInput.parentElement.className = 'valid';
+            emailInput.parentElement.lastElementChild.style.display = 'none';
         }
         if (totalPriceRegex) {
-            field.className += ' not-valid hint';
+            field.classList.remove('valid');
+            field.className += ' not-valid';
+            field.lastElementChild.style.display = 'initial';
+        }
+        else if (!totalPriceRegex) {
+            field.classList.remove('not-valid');
+            field.className += ' valid';
+            field.lastElementChild.style.display = '';
+        }
+        if (payWith.value === 'credit-card') {
+            alert('credit');
+            if (!cardNumberInputRegex) {
+                cardNumberInput.parentElement.className = 'not-valid';
+                cardNumberInput.parentElement.lastElementChild.style.display = 'initial';
+            }
+            else if (cardNumberInputRegex) {
+                cardNumberInput.parentElement.className = 'valid';
+                cardNumberInput.parentElement.lastElementChild.style.display = '';
+            }
+
+            if (!zipCodeRegex) {
+                zipCode.parentElement.className = 'not-valid';
+                zipCode.parentElement.lastElementChild.style.display = 'initial';
+            }
+            else if (zipCodeRegex) {
+                zipCode.parentElement.className = 'valid';
+                zipCode.parentElement.lastElementChild.style.display = '';
+            }
+
+            if (!cvvRegex) {
+                cvv.parentElement.className = 'not-valid';
+                cvv.parentElement.lastElementChild.style.display = 'initial';
+            }
+            else if (cvvRegex) {
+                cvv.parentElement.className = 'valid';
+                cvv.parentElement.lastElementChild.style.display = '';
+            }
+        }
+        else{
+            alert(payWith.value);
         }
     }
     else{
@@ -159,3 +214,8 @@ for(let i = 0; i < label.length; i++){
     });
 }
 
+// if (payWith.value === 'paypal') {
+//     alert('rock ya shit');
+// }
+
+console.log(payWith.value);
