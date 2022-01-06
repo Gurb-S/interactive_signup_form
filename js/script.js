@@ -1,6 +1,9 @@
 const nameField = document.getElementById('name');
 nameField.focus();
 
+const fieldDiv = document.getElementById('activities-box');
+const label = fieldDiv.children;
+
 const otherJob = document.getElementById('other-job-role');
 otherJob.style.display = 'none';
 
@@ -66,7 +69,28 @@ field.addEventListener('change',(e)=>{
     else if(!checkbox && totalPrice.textContent !== 'Total: $0'){
         totalCost -= costInt;
     }
+    console.log(e.target.dataset.dayAndTime);
+    const dateReal = e.target.dataset.dayAndTime;
+    const allSameDates = [];
+    for(let i = 1; i < label.length; i++){
+        const inputCheckbox = label[i].firstChild.nextSibling;
+        const date = inputCheckbox.dataset.dayAndTime;
+        if (checkbox && dateReal === date && !inputCheckbox.checked) {
+            allSameDates.push(inputCheckbox.parentElement);
+            for(let i = 0; i < allSameDates.length; i++){
+                allSameDates[i].className = 'disabled';
+                inputCheckbox.disabled = 'true';
+            }
+            if (!checkbox) {
+                for(let i = 0; i < allSameDates.length; i++){
+                    allSameDates[i].className = '';
+                    inputCheckbox.disabled = 'false';
+                }
+            }
     
+        }
+    }
+    //console.log(allSameDates);
     totalPrice.textContent = `Total: $${totalCost}`;
 });
 
@@ -116,7 +140,7 @@ form.addEventListener('submit',(e)=>{
         zipCode.value = '12345';
         cvv.value = '123';
     }
-    
+
     const nameRegex = /^\w+$/i.test(nameInput.value);
     const emailRegex = /^\w+@\w+.com$/i.test(emailInput.value);
     const totalPriceRegex = /^Total: \$0$/.test(totalPrice.textContent);
@@ -132,7 +156,6 @@ form.addEventListener('submit',(e)=>{
     || !cvvRegex
     ){
         e.preventDefault();
-        alert('something is wrong');
         if(!nameRegex){
             nameField.parentElement.className = 'not-valid';
             nameField.parentElement.lastElementChild.style.display = 'initial';
@@ -160,7 +183,6 @@ form.addEventListener('submit',(e)=>{
             field.lastElementChild.style.display = '';
         }
         if (payWith.value === 'credit-card') {
-            alert('credit');
             if (!cardNumberInputRegex) {
                 cardNumberInput.parentElement.className = 'not-valid';
                 cardNumberInput.parentElement.lastElementChild.style.display = 'initial';
@@ -188,24 +210,19 @@ form.addEventListener('submit',(e)=>{
                 cvv.parentElement.lastElementChild.style.display = '';
             }
         }
-        else{
-            alert(payWith.value);
-        }
-    }
-    else{
-       alert('it worked');
     }
 });
 
-const fieldDiv = document.getElementById('activities-box');
-const label = fieldDiv.children;
+
 
 for(let i = 0; i < label.length; i++){
     const inputCheckbox = label[i].firstChild.nextSibling;
 
     inputCheckbox.addEventListener('focus',(e)=>{
     const testLabel = e.target.parentElement;
-    testLabel.className = 'focus';
+    //console.log(testLabel);
+
+    testLabel.className = ' focus';
     });
 
     inputCheckbox.addEventListener('blur',(e)=>{
@@ -213,9 +230,3 @@ for(let i = 0; i < label.length; i++){
         testLabel.className = '';
     });
 }
-
-// if (payWith.value === 'paypal') {
-//     alert('rock ya shit');
-// }
-
-console.log(payWith.value);
