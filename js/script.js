@@ -1,3 +1,12 @@
+/************************************************
+Gurbakhash Sandhu
+Project 7 - Interactive Form
+
+v1 - 12-15-21
+
+v2 - ???
+*************************************************/
+
 const nameField = document.getElementById('name');
 nameField.focus();
 
@@ -11,7 +20,6 @@ const jobRole = document.getElementById('title');
 
 jobRole.addEventListener('click',(e)=>{
     const roleSelected = e.target.value;
-    console.log(roleSelected);
     if(roleSelected === 'other'){
         otherJob.style.display = '';
     }
@@ -26,7 +34,6 @@ color.disabled = true;
 const designs = document.getElementById('design');
 designs.addEventListener('click',(e)=>{
     const designChoice = e.target.value;
-    console.log(e.target);
     const options = color.children;
     color.value = 'Select a design theme above';
     if(designChoice === 'js puns'){
@@ -69,7 +76,6 @@ field.addEventListener('change',(e)=>{
     else if(!checkbox && totalPrice.textContent !== 'Total: $0'){
         totalCost -= costInt;
     }
-    console.log(e.target.dataset.dayAndTime);
     const dateReal = e.target.dataset.dayAndTime;
     const allSameDates = [];
     for(let i = 1; i < label.length; i++){
