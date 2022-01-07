@@ -23,7 +23,7 @@ const jobRole = document.getElementById('title');
  * displays an input field for user to type in a specifc if 
  * they chose "other" for the Job Role field
  */
-jobRole.addEventListener('click',(e)=>{
+jobRole.addEventListener('change',(e)=>{
     const roleSelected = e.target.value;
     if(roleSelected === 'other'){
         otherJob.style.display = '';
@@ -44,7 +44,7 @@ const designs = document.getElementById('design');
  * targets the design field and changes the color avaiblity for shirts depending
  * on the design that is chosen by the user
  */
-designs.addEventListener('click',(e)=>{
+designs.addEventListener('change',(e)=>{
     const designChoice = e.target.value;
     const options = color.children;
     color.value = 'Select a design theme above';
@@ -130,7 +130,7 @@ bitcoin.style.display = 'none';
  * checks to see what the payment the user will be using and displays that information 
  * for that payment type and hides all others
  */
-payWith.addEventListener('click',(e)=>{
+payWith.addEventListener('change',(e)=>{
     const paymentChoice = e.target.value;
     if(paymentChoice === 'credit-card'){
         creditCardInfo.style.display = '';
