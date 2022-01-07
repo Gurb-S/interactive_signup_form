@@ -140,6 +140,12 @@ const cardNumberInput = document.getElementById('cc-num');
 const zipCode = document.getElementById('zip');
 const cvv = document.getElementById('cvv');
 
+const errorCatching = (field,classType = 'not-valid',displayType = 'initial') => {
+    field.parentElement.className = classType;
+    field.parentElement.lastElementChild.style.display = displayType;
+}
+
+
 const form = document.getElementsByClassName('container')[0].children[0];
 
 form.addEventListener('submit',(e)=>{
@@ -157,6 +163,7 @@ form.addEventListener('submit',(e)=>{
     const zipCodes = zipCodeRegex(zipCode);
     const cvvS = cvvRegex(cvv);
 
+
     if(!names
     || !emails
     || prices 
@@ -166,27 +173,22 @@ form.addEventListener('submit',(e)=>{
     ){
         e.preventDefault();
         if(!names){
-            nameField.parentElement.className = 'not-valid';
-            nameField.parentElement.lastElementChild.style.display = 'initial';
+            errorCatching(nameField);
         }
         else if (names) {
-            nameField.parentElement.className = 'valid';
-            nameField.parentElement.lastElementChild.style.display = '';
+            errorCatching(nameField,'valid','');
         }
         if(!emails && emailInput.value === ''){
-            emailInput.parentElement.className = 'not-valid';
-            emailInput.parentElement.lastElementChild.style.display = 'initial'; 
-            emailInput.parentElement.lastElementChild.previousElementSibling.style.display = 'none';   
+            errorCatching(emailInput);
+            emailInput.parentElement.lastElementChild.previousElementSibling.style.display = '';   
         }
         else if (!emails) {
-            emailInput.parentElement.className = 'not-valid';
+            errorCatching(emailInput,undefined,'');
             emailInput.parentElement.lastElementChild.previousElementSibling.style.display = 'initial';
-            emailInput.parentElement.lastElementChild.style.display = 'none';
         }
         else if (emails){
-            emailInput.parentElement.className = 'valid';
-            emailInput.parentElement.lastElementChild.style.display = 'none';
-            emailInput.parentElement.lastElementChild.previousElementSibling.style.display = 'none'; 
+            errorCatching(emailInput,'valid','');
+            emailInput.parentElement.lastElementChild.previousElementSibling.style.display = ''; 
         }
         if (prices) {
             field.classList.remove('valid');
@@ -200,30 +202,24 @@ form.addEventListener('submit',(e)=>{
         }
         if (payWith.value === 'credit-card') {
             if (!cardNumbers) {
-                cardNumberInput.parentElement.className = 'not-valid';
-                cardNumberInput.parentElement.lastElementChild.style.display = 'initial';
+                errorCatching(cardNumberInput);
             }
             else if (cardNumbers) {
-                cardNumberInput.parentElement.className = 'valid';
-                cardNumberInput.parentElement.lastElementChild.style.display = '';
+                errorCatching(cardNumberInput,'valid','');
             }
 
             if (!zipCodes) {
-                zipCode.parentElement.className = 'not-valid';
-                zipCode.parentElement.lastElementChild.style.display = 'initial';
+                errorCatching(zipCode);
             }
             else if (zipCodes) {
-                zipCode.parentElement.className = 'valid';
-                zipCode.parentElement.lastElementChild.style.display = '';
+                errorCatching(zipCode,'valid','');
             }
 
             if (!cvvS) {
-                cvv.parentElement.className = 'not-valid';
-                cvv.parentElement.lastElementChild.style.display = 'initial';
+                errorCatching(cvv);
             }
             else if (cvvS) {
-                cvv.parentElement.className = 'valid';
-                cvv.parentElement.lastElementChild.style.display = '';
+                errorCatching(cvv,'valid','');
             }
         }
     }
@@ -248,11 +244,9 @@ for(let i = 0; i < label.length; i++){
 cardNumberInput.addEventListener('keyup',(e)=>{
     const cardNumbers = cardNumberInputRegex(cardNumberInput);
     if (!cardNumbers) {
-        cardNumberInput.parentElement.className = 'not-valid';
-        cardNumberInput.parentElement.lastElementChild.style.display = 'initial';
+        errorCatching(cardNumberInput);
     }
     else if (cardNumbers) {
-        cardNumberInput.parentElement.className = 'valid';
-        cardNumberInput.parentElement.lastElementChild.style.display = '';
+        errorCatching(cardNumberInput,'valid','');
     }
 })
