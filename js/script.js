@@ -8,6 +8,7 @@ v2 - ???
 *************************************************/
 
 const nameField = document.getElementById('name');
+// puts the focus effect on the Name input field when page loads
 nameField.focus();
 
 const fieldDiv = document.getElementById('activities-box');
@@ -18,6 +19,10 @@ otherJob.style.display = 'none';
 
 const jobRole = document.getElementById('title');
 
+/**
+ * displays an input field for user to type in a specifc if 
+ * they chose "other" for the Job Role field
+ */
 jobRole.addEventListener('click',(e)=>{
     const roleSelected = e.target.value;
     if(roleSelected === 'other'){
@@ -29,9 +34,16 @@ jobRole.addEventListener('click',(e)=>{
 });
 
 const color = document.getElementById('color');
+//disables the color input field by default 
 color.disabled = true;
 
+
 const designs = document.getElementById('design');
+
+/**
+ * targets the design field and changes the color avaiblity for shirts depending
+ * on the design that is chosen by the user
+ */
 designs.addEventListener('click',(e)=>{
     const designChoice = e.target.value;
     const options = color.children;
@@ -64,8 +76,15 @@ designs.addEventListener('click',(e)=>{
 
 const field = document.getElementById('activities');
 const totalPrice = document.getElementById('activities-cost');
+// sets initial cost for total
 let totalCost = 0;
 
+/**
+ * checks for changes to the activities and updates price total when the user
+ *  selects or deselects a workshop 
+ * If the user selects a workshop that has a schedule conflict with other workshops, 
+ * the other workshops will be disabled  
+ */
 field.addEventListener('change',(e)=>{
     const costAsString = e.target.dataset.cost;
     const costInt = parseInt(costAsString);
@@ -107,6 +126,10 @@ paypal.style.display = 'none';
 const bitcoin = document.getElementById('bitcoin');
 bitcoin.style.display = 'none';
 
+/**
+ * checks to see what the payment the user will be using and displays that information 
+ * for that payment type and hides all others
+ */
 payWith.addEventListener('click',(e)=>{
     const paymentChoice = e.target.value;
     if(paymentChoice === 'credit-card'){
@@ -126,7 +149,11 @@ payWith.addEventListener('click',(e)=>{
     }
 });
 
-
+/**
+ * this is the same for the following 6 arrow functions
+ * @param {input field} name - takes in an input field and checks if its value matches the regex function
+ * @returns - true or false 
+ */
 const nameRegex = name => /^\w+$/i.test(name.value);
 const emailRegex = email => /^\w+@\w+.com$/i.test(email.value);
 const totalPriceRegex = price => /^Total: \$0$/.test(price.textContent);
@@ -140,6 +167,15 @@ const cardNumberInput = document.getElementById('cc-num');
 const zipCode = document.getElementById('zip');
 const cvv = document.getElementById('cvv');
 
+/**
+ * `errorCatching`
+ * function that allows you to easily adjust when error messages are shown for selected 
+ * input field
+ * @param {input field} field - input field for which you want to target 
+ * @param {text} classType - choose class that you want parent of input field to have
+ * @param {text} displayType - choose whether you wouyld like the last element of the parent element to be displayed
+ * 
+ */
 const errorCatching = (field,classType = 'not-valid',displayType = 'initial') => {
     field.parentElement.className = classType;
     field.parentElement.lastElementChild.style.display = displayType;
@@ -148,8 +184,17 @@ const errorCatching = (field,classType = 'not-valid',displayType = 'initial') =>
 
 const form = document.getElementsByClassName('container')[0].children[0];
 
+/**
+ * form validation
+ * checks if certain user input fields meet the requirments when user attempts to submit
+ * form and if not all input fields meet the requirments, provides the user with an error 
+ * for which ones need to be fixed
+ */
 form.addEventListener('submit',(e)=>{
-
+    /**
+     * gives the credit card number, zipcode, and cvv input fields for when the user is 
+     * using paypal or bitcoin so that they will pass the form validation
+     */
     if (payWith.value === 'paypal' || payWith.value === 'bitcoin') {
         cardNumberInput.value = '1234567890123';
         zipCode.value = '12345';
@@ -226,7 +271,11 @@ form.addEventListener('submit',(e)=>{
 });
 
 
-
+/**
+ * applies a focus & blur effects to the 7 activites that can be registered for based
+ * on where the user is currently tabbed on or last clicked. 
+ * This is to help with accessibility
+ */
 for(let i = 0; i < label.length; i++){
     const inputCheckbox = label[i].firstChild.nextSibling;
 
@@ -241,6 +290,9 @@ for(let i = 0; i < label.length; i++){
     });
 }
 
+/**
+ * gives the user live error messages for the card number input field  
+ */
 cardNumberInput.addEventListener('keyup',(e)=>{
     const cardNumbers = cardNumberInputRegex(cardNumberInput);
     if (!cardNumbers) {
