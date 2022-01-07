@@ -1,6 +1,12 @@
 /************************************************
+
+
 Gurbakhash Sandhu
+
+
 Project 7 - Interactive Form
+
+
 *************************************************/
 
 This project takes a sign up form for a Full Stack Conference and adds functionality for it using JavaScript.
