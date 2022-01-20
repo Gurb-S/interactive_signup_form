@@ -196,7 +196,7 @@ form.addEventListener('submit',(e)=>{
      * using paypal or bitcoin so that they will pass the form validation
      */
     if (payWith.value === 'paypal' || payWith.value === 'bitcoin') {
-        cardNumberInput.value = '1234567890123';
+        cardNumberInput.value = '1234567890123456';
         zipCode.value = '12345';
         cvv.value = '123';
     }
